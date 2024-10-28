@@ -88,7 +88,7 @@ def read_hcsr04():
     # Calculate the distance based on pulse duration
     duration = time.ticks_diff(pulse_end, pulse_start)
     distance = duration * 0.034 / 2
-    print("Distância: {:.2f} cm".format(distance))
+    print("Nível do reservatório: {:.2f} cm".format(distance))
     return distance
 
 
