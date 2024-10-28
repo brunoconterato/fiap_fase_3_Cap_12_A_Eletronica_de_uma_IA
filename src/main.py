@@ -114,21 +114,86 @@ def classify_light(light_level):
 def read_ldr():
     # Read the LDR value (0-4095)
     value = ldr.read()
-    print("LDR value: {}".format(value))
+    # print("LDR value: {}".format(value))
     resistance = calculate_resistance(value)
     light_level = calculate_lux(resistance)
     print("Light level: {}".format(light_level))
 
     light_classification = classify_light(light_level)
-    print("Light classification: {}".format(light_classification))
+    # print("Light classification: {}".format(light_classification))
     
     return light_level
 
+#########################################################
+##### Start: Code to check motion and control alarm #####
+#########################################################
+
+# Initial alarm state and storage for motion detection history
+alarm_active = False
+
+motion_history = []  # Stores last 5 minutes of motion data (assuming a 5-second interval)
+MAX_LEN = 5 * 60 // 5   # Five minutes of motion, if every value is 5 seconds from the other
+
+def append_with_limit(dq, item):
+    global MAX_LEN
+    dq.append(item)
+    if len(dq) > MAX_LEN:
+        dq.pop(0)  # Remove the oldest item
+    return dq
+
+def check_invasion(motion_detected):
+    """
+    Checks motion history over the last 5 minutes.
+    
+    If motion is detected in more than 2 readings, it triggers the invasion alarm.
+    
+    Otherwise, if no motion was detected in the readings,
+    it deactivates the alarm after 5 minutes of no motion.
+    """
+    global alarm_active, motion_history
+    
+    # Append current motion detection status to the history
+    motion_history = append_with_limit(motion_history, motion_detected)
+    
+    # Count recent motion detections (in last 5 minutes)
+    recent_motion_detections = sum(motion_history)
+    
+    # Condition to activate the alarm if more than 2 motion detections are observed in the last 5 minutes
+    if recent_motion_detections > 2:
+        if not alarm_active:
+            activate_alarm()
+    
+    # Condition to deactivate the alarm if there has been no motion for the last 5 minutes
+    elif recent_motion_detections == 0 and alarm_active:
+        deactivate_alarm()
+
+def activate_alarm():
+    """
+    Activates the invasion alarm, for example by triggering an alert or sending a notification.
+    """
+    global alarm_active
+    alarm_active = True
+    print("Alert: Motion detected! Alarm activated.")
+
+def deactivate_alarm():
+    """
+    Deactivates the invasion alarm
+    """
+    global alarm_active
+    alarm_active = False
+    print("Alert deactivated. Area is secure.")
+
+#######################################################
+##### End: Code to check motion and control alarm #####
+#######################################################
+
 
 while True:
+    print("\n")
     temperature, humidity = read_dht()       # Read and print DHT22 data
-    distance = read_hcsr04()                 # Read and print HC-SR04 data
-    has_motion = read_pir()                  # Read and print PIR sensor state
+    reservoir_level = read_hcsr04()                 # Read and print HC-SR04 data
+    detected_motion = read_pir()                  # Read and print PIR sensor state
     light_level = read_ldr()                 # Read and print LDR light level
     
-    time.sleep(5)    # Wait for 2 seconds before repeating
+    check_invasion(detected_motion)
+    time.sleep(5)    # Wait for 5 seconds before repeating
