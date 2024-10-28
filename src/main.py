@@ -124,9 +124,11 @@ def read_ldr():
     
     return light_level
 
+
 #########################################################
 ##### Start: Code to check motion and control alarm #####
 #########################################################
+
 
 # Initial alarm state and storage for motion detection history
 alarm_active = False
@@ -182,6 +184,7 @@ def deactivate_alarm():
     global alarm_active
     alarm_active = False
     print("Alerta desativado. A área está segura.")
+
 
 #######################################################
 ##### End: Code to check motion and control alarm #####
