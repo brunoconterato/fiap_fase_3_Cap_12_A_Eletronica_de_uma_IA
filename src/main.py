@@ -196,63 +196,134 @@ def deactivate_alarm():
 ###################################################
 
 # Initial irrigation state
-irrigation_level = 0    # 0 for deactivated, 1 for light, 2 for strong
+# Inicialização do nível de irrigação
 
-def check_irrigation(humidity, reservoir_level):
-    """
-    Checks the conditions for irrigation and activates or deactivates it accordingly.
-    """
-    global irrigation_active
+# TODO: incluir na documentação
+# Informação de irrigação: https://chatgpt.com/c/671f0c05-3a38-8009-83bf-ecd5d41506e7
+
+irrigation_level = 0    # 0 para desativada, 1 para fraca, 2 para moderada, 3 para forte
+
+def check_conditions(humidity, reservoir_level, light_level):
+    # Boolean variables for soil moisture levels
+    humidity_low = humidity < 40  # Low moisture when humidity is below 40%
+    humidity_medium = 40 <= humidity < 70  # Medium moisture between 40% and 69%
+    humidity_high = humidity >= 70  # High moisture when humidity is 70% or higher
     
-    # Determine moisture level
-    if humidity < 40 and reservoir_level > 20:  # Low humidity and sufficient water
-        if irrigation_level == 2:
-            keep_irrigation()
-        else:
-            activate_strong_irrigation()
-    elif 40 <= humidity < 70 and reservoir_level > 20:  # Moderate humidity and sufficient water
-        if irrigation_level == 1:
-            keep_irrigation()
-        else:
-            activate_light_irrigation()
-    else:  # High humidity or low water level
-        if irrigation_level != 0:
-            deactivate_irrigation()
+    # Boolean variables for reservoir levels
+    reservoir_full = reservoir_level > 100  # Full reservoir when water level is above 100 cm
+    reservoir_moderate = 60 <= reservoir_level <= 100  # Moderate reservoir level between 60 cm and 100 cm
+    reservoir_low = reservoir_level < 60  # Low reservoir when water level is below 60 cm
 
-def keep_irrigation():
+    # Boolean variables for light intensity levels
+    light_high = light_level > 1000  # High light intensity above 1000 lux (daylight)
+    light_moderate = 10 <= light_level <= 1000  # Moderate light intensity between 10 lux (dusk) and 1000 lux (cloudy day)
+    light_low = light_level < 10  # Low light intensity below 10 lux (dusk)
+    
+    print("\n")
+    print("Umidity:", "low" if humidity_low else "medium" if humidity_medium else "high")
+    print("Reservoir:", "full" if reservoir_full else "moderate" if reservoir_moderate else "low")
+    print("Light:", "high" if light_high else "moderate" if light_moderate else "low")
+
+    # Return all condition variables for use in decision-making
+    return humidity_low, humidity_medium, humidity_high, reservoir_full, reservoir_moderate, reservoir_low, light_high, light_moderate, light_low
+
+def check_irrigation(humidity, reservoir_level, light_level):
     global irrigation_level
-    if irrigation_level == 1:
-        print("Mantendo irrigação fraca")
-    elif irrigation_level == 2:
-        print("Mantendo irrigação forte")
+    
+    # Obtain boolean conditions for soil moisture, reservoir level, and light intensity
+    humidity_low, humidity_medium, humidity_high, reservoir_full, reservoir_moderate, reservoir_low, light_high, light_moderate, light_low = check_conditions(humidity, reservoir_level, light_level)
+    
+    # Decision logic for irrigation control based on conditions:
+    
+    # Case 1: Low soil moisture and full reservoir
+    if humidity_low and reservoir_full:
+        if light_high:
+            activate_strong_irrigation()  # Activate strong irrigation for high evaporation risk
+        elif light_moderate:
+            activate_moderate_irrigation()  # Activate moderate irrigation for moderate light conditions
+        else:
+            activate_light_irrigation()  # Activate light irrigation if light is low
+
+    # Case 2: Low soil moisture and moderate reservoir level
+    elif humidity_low and reservoir_moderate:
+        if light_high:
+            activate_moderate_irrigation()  # Moderate irrigation to conserve water with high light
+        else:
+            activate_light_irrigation()  # Light irrigation for low or moderate light to save water
+
+    # Case 3: Medium soil moisture and full or moderate reservoir level
+    elif humidity_medium and (reservoir_full or reservoir_moderate):
+        if light_low:
+            activate_light_irrigation()  # Light irrigation due to low evaporation risk
+        else:
+            activate_moderate_irrigation()  # Moderate irrigation for medium moisture and moderate/high light
+
+    # Case 4: High soil moisture
+    elif humidity_high:
+        deactivate_irrigation("umidade elevada do solo")  # Deactivate irrigation if soil is moist enough
+
+
+    # Case 4:  Low reservoir level
+    elif reservoir_low and not humidity_high:
+        deactivate_irrigation("nível baixo do reservatório")  # Deactivate irrigation if water is low
+
 
 def activate_strong_irrigation():
     """
-    Activates strong irrigation.
+    Ativa irrigação forte.
     """
     global irrigation_level
-    irrigation_level = 2
+    if irrigation_level == 3:
+        keep_irrigation_level()
+        return
+    irrigation_level = 3
     print("Ativando irrigação forte.")
-    # Additional code to control the irrigation system
+    # Código adicional para controlar o sistema de irrigação
+
+def activate_moderate_irrigation():
+    """
+    Ativa irrigação moderada.
+    """
+    global irrigation_level
+    if irrigation_level == 2:
+        keep_irrigation_level()
+        return
+    irrigation_level = 2
+    print("Ativando irrigação moderada.")
+    # Código adicional para controlar o sistema de irrigação
 
 def activate_light_irrigation():
     """
-    Activates light irrigation.
+    Ativa irrigação leve.
     """
     global irrigation_level
+    if irrigation_level == 1:
+        keep_irrigation_level()
+        return
     irrigation_level = 1
-    print("Ativando irrigação fraca.")
-    # Additional code to control the irrigation system
+    print("Ativando irrigação leve.")
+    # Código adicional para controlar o sistema de irrigação
 
-def deactivate_irrigation():
+def deactivate_irrigation(reason):
     """
-    Deactivates the irrigation system.
+    Desativa o sistema de irrigação.
     """
     global irrigation_level
+    if irrigation_level == 0:
+        keep_irrigation_level()
+        return
     irrigation_level = 0
-    print("Desativando irrigação.")
-    # Additional code to turn off the irrigation system
+    print(f"Desativando irrigação. Motivo: {reason}")
+    # Código adicional para desativar o sistema de irrigação
 
+def keep_irrigation_level():
+    global irrigation_level
+    if irrigation_level == 3:
+        print("Mantenha irrigação forte")
+    elif irrigation_level == 2:
+        print("Mantenha irrigação moderada")
+    elif irrigation_level == 1:
+        print("Mantenha irrigação leve")
 
 #################################################
 ##### End: Code to control irrigation level #####
@@ -268,6 +339,6 @@ while True:
     
     check_invasion(detected_motion)
     
-    check_irrigation(temperature, humidity, reservoir_level, light_level)
+    check_irrigation(humidity, reservoir_level, light_level)
 
     time.sleep(5)                                   # Wait for 5 seconds before repeating
