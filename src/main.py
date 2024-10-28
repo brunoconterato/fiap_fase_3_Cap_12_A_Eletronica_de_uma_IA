@@ -191,6 +191,74 @@ def deactivate_alarm():
 #######################################################
 
 
+###################################################
+##### Start: Code to control irrigation level #####
+###################################################
+
+# Initial irrigation state
+irrigation_level = 0    # 0 for deactivated, 1 for light, 2 for strong
+
+def check_irrigation(humidity, reservoir_level):
+    """
+    Checks the conditions for irrigation and activates or deactivates it accordingly.
+    """
+    global irrigation_active
+    
+    # Determine moisture level
+    if humidity < 40 and reservoir_level > 20:  # Low humidity and sufficient water
+        if irrigation_level == 2:
+            keep_irrigation()
+        else:
+            activate_strong_irrigation()
+    elif 40 <= humidity < 70 and reservoir_level > 20:  # Moderate humidity and sufficient water
+        if irrigation_level == 1:
+            keep_irrigation()
+        else:
+            activate_light_irrigation()
+    else:  # High humidity or low water level
+        if irrigation_level != 0:
+            deactivate_irrigation()
+
+def keep_irrigation():
+    global irrigation_level
+    if irrigation_level == 1:
+        print("Mantendo irrigação fraca")
+    elif irrigation_level == 2:
+        print("Mantendo irrigação forte")
+
+def activate_strong_irrigation():
+    """
+    Activates strong irrigation.
+    """
+    global irrigation_level
+    irrigation_level = 2
+    print("Ativando irrigação forte.")
+    # Additional code to control the irrigation system
+
+def activate_light_irrigation():
+    """
+    Activates light irrigation.
+    """
+    global irrigation_level
+    irrigation_level = 1
+    print("Ativando irrigação fraca.")
+    # Additional code to control the irrigation system
+
+def deactivate_irrigation():
+    """
+    Deactivates the irrigation system.
+    """
+    global irrigation_level
+    irrigation_level = 0
+    print("Desativando irrigação.")
+    # Additional code to turn off the irrigation system
+
+
+#################################################
+##### End: Code to control irrigation level #####
+#################################################
+
+
 while True:
     print("\nNova leitura:")
     temperature, humidity = read_dht()              # Read and print DHT22 data
@@ -199,4 +267,7 @@ while True:
     light_level = read_ldr()                        # Read and print LDR light level
     
     check_invasion(detected_motion)
+    
+    check_irrigation(temperature, humidity, reservoir_level, light_level)
+
     time.sleep(5)                                   # Wait for 5 seconds before repeating
