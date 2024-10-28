@@ -65,6 +65,7 @@ def read_dht():
         # Exibe os valores no console
         print("Temperatura:", temperature, "°C")
         print("Umidade:", humidity, "%")
+        return temperature, humidity
         
     except OSError as e:
         print("Erro ao ler o sensor DHT22:", e)
@@ -88,14 +89,18 @@ def read_hcsr04():
     duration = time.ticks_diff(pulse_end, pulse_start)
     distance = duration * 0.034 / 2
     print("Distance: {:.2f} cm".format(distance))
+    return distance
 
 
 def read_pir():
     # Check the PIR sensor state
-    if pir.value() == 1:
+    has_motion = pir.value() == 1
+    if has_motion:
         print("Motion detected!")
     else:
         print("No motion detected.")
+
+    return has_motion
 
 
 def classify_light(light_level):
@@ -116,11 +121,14 @@ def read_ldr():
 
     light_classification = classify_light(light_level)
     print("Light classification: {}".format(light_classification))
+    
+    return light_level
 
 
 while True:
-    read_dht()       # Read and print DHT22 data
-    read_hcsr04()    # Read and print HC-SR04 data
-    read_pir()       # Read and print PIR sensor state
-    read_ldr()       # Read and print LDR light level
+    temperature, humidity = read_dht()       # Read and print DHT22 data
+    distance = read_hcsr04()                 # Read and print HC-SR04 data
+    has_motion = read_pir()                  # Read and print PIR sensor state
+    light_level = read_ldr()                 # Read and print LDR light level
+    
     time.sleep(5)    # Wait for 2 seconds before repeating
