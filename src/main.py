@@ -88,7 +88,7 @@ def read_hcsr04():
     # Calculate the distance based on pulse duration
     duration = time.ticks_diff(pulse_end, pulse_start)
     distance = duration * 0.034 / 2
-    print("Distance: {:.2f} cm".format(distance))
+    print("Distância: {:.2f} cm".format(distance))
     return distance
 
 
@@ -96,9 +96,9 @@ def read_pir():
     # Check the PIR sensor state
     has_motion = pir.value() == 1
     if has_motion:
-        print("Motion detected!")
+        print("Movimento detectado!")
     else:
-        print("No motion detected.")
+        print("Nenhum movimento detectado.")
 
     return has_motion
 
@@ -117,7 +117,7 @@ def read_ldr():
     # print("LDR value: {}".format(value))
     resistance = calculate_resistance(value)
     light_level = calculate_lux(resistance)
-    print("Light level: {}".format(light_level))
+    print("Luminosidade: {}".format(light_level))
 
     light_classification = classify_light(light_level)
     # print("Light classification: {}".format(light_classification))
@@ -132,7 +132,7 @@ def read_ldr():
 alarm_active = False
 
 motion_history = []  # Stores last 5 minutes of motion data (assuming a 5-second interval)
-MAX_LEN = 5 * 60 // 5   # Five minutes of motion, if every value is 5 seconds from the other
+MAX_LEN = 5 * 60 // 5   # Five minutes of motion (assuming a 5-second interval)
 
 def append_with_limit(dq, item):
     global MAX_LEN
@@ -173,7 +173,7 @@ def activate_alarm():
     """
     global alarm_active
     alarm_active = True
-    print("Alert: Motion detected! Alarm activated.")
+    print("Alerta: Movimento detectado mais de 2 vezes nos últimos 5 minutos! Alarme ativado.")
 
 def deactivate_alarm():
     """
@@ -181,7 +181,7 @@ def deactivate_alarm():
     """
     global alarm_active
     alarm_active = False
-    print("Alert deactivated. Area is secure.")
+    print("Alerta desativado. A área está segura.")
 
 #######################################################
 ##### End: Code to check motion and control alarm #####
@@ -189,11 +189,11 @@ def deactivate_alarm():
 
 
 while True:
-    print("\n")
-    temperature, humidity = read_dht()       # Read and print DHT22 data
+    print("\nNova leitura:")
+    temperature, humidity = read_dht()              # Read and print DHT22 data
     reservoir_level = read_hcsr04()                 # Read and print HC-SR04 data
-    detected_motion = read_pir()                  # Read and print PIR sensor state
-    light_level = read_ldr()                 # Read and print LDR light level
+    detected_motion = read_pir()                    # Read and print PIR sensor state
+    light_level = read_ldr()                        # Read and print LDR light level
     
     check_invasion(detected_motion)
-    time.sleep(5)    # Wait for 5 seconds before repeating
+    time.sleep(5)                                   # Wait for 5 seconds before repeating
