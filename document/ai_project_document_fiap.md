@@ -138,7 +138,7 @@ Para futuras melhorias, recomenda-se:
 
 # <a name="c7"></a>Anexos
 
-### 7.1. Ver o [Diagrama de conexão dos sensores](./other/sensors_diagram.md)
+### 7.1. Ver o [Diagrama de conexão dos sensores](./other/sensor_diagram.md)
 
 ### 7.2. Ver a [Lógica de irrigação](./other/irrigation_logic.md)
 
