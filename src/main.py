@@ -10,11 +10,11 @@ import math
 
 
 # Define pins
-DHT_PIN = 12  # DHT22 data pin connected to GPIO 15
-TRIG_PIN = 0  # HC-SR04 Trig pin connected to GPIO 5
-ECHO_PIN = 2  # HC-SR04 Echo pin connected to GPIO 18
-PIR_PIN = 4  # PIR sensor data pin connected to GPIO 4
-LDR_PIN = 33  # LDR sensor connected to GPIO 36 (ADC1 channel 0)
+DHT_PIN = 12  # DHT22 data pin connected to GPIO 12
+TRIG_PIN = 0  # HC-SR04 Trig pin connected to GPIO 0
+ECHO_PIN = 2  # HC-SR04 Echo pin connected to GPIO 2
+PIR_PIN = 4   # PIR sensor data pin connected to GPIO 4
+LDR_PIN = 33  # LDR sensor connected to GPIO 33 (ADC1 channel 0)
 
 # Initialize DHT22 sensor
 dht_sensor = dht.DHT22(Pin(DHT_PIN))
@@ -207,10 +207,7 @@ def deactivate_alarm():
 ###################################################
 
 
-
-# TODO: incluir na documentação
-# Informação de irrigação: https://chatgpt.com/c/671f0c05-3a38-8009-83bf-ecd5d41506e7
-
+# Global variable to store the current irrigation level
 irrigation_level = 0  # 0 para desativada, 1 para fraca, 2 para moderada, 3 para forte
 
 
@@ -310,7 +307,7 @@ def check_irrigation(humidity, reservoir_level, light_level):
         )  # Deactivate irrigation if soil is moist enough
 
     # Case 4:  Low reservoir level
-    elif reservoir_low and not humidity_high:
+    elif reservoir_low:
         deactivate_irrigation(
             "nível baixo do reservatório"
         )  # Deactivate irrigation if water is low
