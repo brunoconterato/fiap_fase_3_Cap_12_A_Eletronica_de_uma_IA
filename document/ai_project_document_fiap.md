@@ -135,6 +135,7 @@ Para futuras melhorias, recomenda-se:
 - Documentação oficial do [Wokwi](https://docs.wokwi.com/pt-BR/)
 - [Wokwi IoT Simulation Platform](https://wokwi.com)
 - Manuais técnicos dos sensores: [DHT22](https://docs.wokwi.com/pt-BR/parts/wokwi-dht22/), [HC-SR04](https://docs.wokwi.com/pt-BR/parts/wokwi-hc-sr04/), [PIR](https://docs.wokwi.com/pt-BR/parts/wokwi-pir-motion-sensor/) e [LDR](https://docs.wokwi.com/pt-BR/parts/wokwi-photoresistor-sensor/).
+- [Projeto usando sensor LDR](https://wokwi.com/projects/372429832828226561) usado como referência para os cálculos (agradecimentos aos autores do projeto!).
 
 # <a name="c7"></a>Anexos
 
