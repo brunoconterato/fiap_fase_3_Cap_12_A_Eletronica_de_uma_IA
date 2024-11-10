@@ -6,7 +6,7 @@
 #define TRIG_PIN 0       // HC-SR04 Trig pin connected to GPIO 0
 #define ECHO_PIN 2       // HC-SR04 Echo pin connected to GPIO 2
 #define PIR_PIN 4        // PIR sensor data pin connected to GPIO 4
-#define LDR_PIN A0       // LDR sensor connected to A0 (analog input)
+#define LDR_PIN 33       // LDR sensor connected to A0 (analog input)
 
 DHT dht(DHT_PIN, DHT_TYPE);
 int irrigation_level = 0;   // 0 for off, 1 for light, 2 for moderate, 3 for strong
