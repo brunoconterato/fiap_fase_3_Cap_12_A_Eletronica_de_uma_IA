@@ -5,9 +5,37 @@
 
 **_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final_**
 
-## Nome do Grupo
+# Projeto de Monitoramento e Controle de Irrigação
 
-#### Nomes dos integrantes do grupo
+## Sobre o Grupo
+
+## 👨‍🎓 Integrantes: 
+- <a href="https://www.linkedin.com/in/brunoconterato">Bruno Conterato</a> 
+- <a href="https://www.linkedin.com/in/willianpmarques">Willian Pinheiro Marques</a> 
+- <a href="https://www.linkedin.com/in/robertobesser">Roberto Besser</a>
+- <a href="https://www.linkedin.com/in/ludimila-vi">Ludimila Vitorino</a>
+
+## 👩‍🏫 Professores:
+### Tutor(a) 
+- <a href="https://www.linkedin.com/in/lucas-gomes-moreira-15a8452a/">Lucas Gomes Moreira</a>
+### Coordenador(a)
+- <a href="https://www.linkedin.com/in/profandregodoi/">André Godoi</a>
+
+
+## 📜 Descrição
+
+Este projeto consiste em um sistema automatizado de monitoramento e controle de irrigação de plantações. Desenvolvido para facilitar o gerenciamento de grandes áreas agrícolas, o sistema utiliza sensores para medir parâmetros ambientais como umidade do solo e temperatura, ajustando automaticamente a irrigação conforme as necessidades da plantação. Inicialmente, o sistema eletrônico foi desenvolvido em **MicroPython** para rápida prototipagem, sendo posteriormente traduzido para **C++** para otimizar desempenho. Na versão final, implementada em um microcontrolador simulado no Wokwi, o sistema combina sensores de umidade, relés para ativar/desativar bombas de água, e uma interface de menu para configurações manuais.
+
+O projeto foi desenvolvido ao longo de várias fases, cada uma agregando novas funcionalidades e refinando o sistema. O código é modular, com cada função encapsulada em arquivos específicos. A automação permite reduzir o desperdício de água e otimizar o crescimento das culturas, contribuindo para práticas agrícolas mais sustentáveis e eficientes.
+
+
+Para mais informações, acesse:
+- [Documentação do projeto](./document/ai_project_document_fiap.md)
+- [Lógica de irrigação](./document/other/irrigation_logic.md)
+- [Lógica de segurança](./document/other/security_logic.md)
+- [Diagrama de conexão dos sensores](./document/other/sensor_diagram.md)
+- [Código-fonte no Wokwi](https://wokwi.com/projects/414104064226887681)
+
 
 
 
@@ -104,6 +132,20 @@ Como o projeto não utiliza modelos de IA treináveis, mas sim um sistema de reg
 - **Teste de Detecção de Movimento**: Testes para validar a lógica de invasão com o sensor PIR, verificando o acionamento do alarme após múltiplas detecções em cinco minutos.
   
 Os resultados foram ajustados para refletir as condições ideais de umidade e luminosidade para ativação dos sistemas de irrigação e segurança, garantindo a efetividade do monitoramento sem necessidade de ajustes adicionais.
+
+### 3.4 Evolução do Sistema Eletrônico
+
+Inicialmente, o sistema eletrônico foi desenvolvido em **MicroPython** para facilitar a prototipagem e a validação dos sensores e dos controles do relé. Essa versão inicial foi implementada e testada no [Wokwi](https://wokwi.com/projects/412840257175989249) e permitiu ajustes rápidos no código e nos componentes antes de avançar para uma implementação mais robusta.
+
+Após os testes bem-sucedidos na versão MicroPython, o sistema foi traduzido para **C++** ([versão final no Wokwi](https://wokwi.com/projects/414104064226887681)), que oferece maior desempenho e flexibilidade para controle do hardware em nível mais baixo. A versão final em C++ incluiu ajustes adicionais para otimizar o funcionamento do relé e a integração com os sensores, garantindo a confiabilidade do sistema.
+
+Os códigos-fonte das duas versões estão disponíveis no repositório do projeto para referência e comparação.
+- MicroPython: 
+  - [Código-fonte no Wokwi](https://wokwi.com/projects/412840257175989249)
+  - Caminho no repositório: `src/MicroPython/`
+- C++:
+  - [Código-fonte no Wokwi](https://wokwi.com/projects/414104064226887681)
+  - Caminho no repositório: `src/C++/`
 
 # <a name="c4"></a>4. Resultados e Avaliações
 
