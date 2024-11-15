@@ -140,7 +140,7 @@ Inicialmente, o sistema eletrônico foi desenvolvido em **MicroPython** para fac
 Após os testes bem-sucedidos na versão MicroPython, o sistema foi traduzido para **C++** ([versão final no Wokwi](https://wokwi.com/projects/414104064226887681)), que oferece maior desempenho e flexibilidade para controle do hardware em nível mais baixo. A versão final em C++ incluiu ajustes adicionais para otimizar o funcionamento do relé e a integração com os sensores, garantindo a confiabilidade do sistema.
 
 Os códigos-fonte das duas versões estão disponíveis no repositório do projeto para referência e comparação.
-- MicroPython: 
+- [LEGADO] MicroPython: 
   - [Código-fonte no Wokwi](https://wokwi.com/projects/412840257175989249)
   - Caminho no repositório: `src/MicroPython/`
 - C++:
