@@ -25,7 +25,7 @@ void activate_light_irrigation();
 void deactivate_irrigation(const char* reason);
 void keep_irrigation_level();
 
-const double SRHC04_HEIGHT = 400.0;
+const double SRHC04_HEIGHT = 400.0; // Height of HC-SR04 sensor, in cm
 
 void setup() {
     Serial.begin(9600);
