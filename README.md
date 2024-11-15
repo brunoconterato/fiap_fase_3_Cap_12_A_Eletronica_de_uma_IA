@@ -6,64 +6,73 @@
 
 <br>
 
-# Nome do projeto
+# A Eletrônica de uma IA
 
-## Nome do grupo
+## Sobre o grupo
 
 ## 👨‍🎓 Integrantes: 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 1</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 2</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 3</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 4</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 5</a>
+- <a href="https://www.linkedin.com/in/brunoconterato">Bruno Conterato</a> 
+- <a href="https://www.linkedin.com/in/willianpmarques">Willian Pinheiro Marques</a> 
+- <a href="https://www.linkedin.com/in/robertobesser">Roberto Besser</a>
+- <a href="https://www.linkedin.com/in/ludimila-vi">Ludimila Vitorino</a>
 
 ## 👩‍🏫 Professores:
 ### Tutor(a) 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Tutor</a>
+- <a href="https://www.linkedin.com/in/lucas-gomes-moreira-15a8452a/">Lucas Gomes Moreira</a>
 ### Coordenador(a)
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Coordenador</a>
+- <a href="https://www.linkedin.com/in/profandregodoi/">André Godoi</a>
 
 
 ## 📜 Descrição
 
-*Descreva seu projeto com base no texto do PBL (até 600 palavras)*
+O projeto consiste em um sistema de monitoramento e controle de irrigação para plantações, utilizando sensores para medir variáveis ambientais e controlar automaticamente o sistema de irrigação. A solução foi desenvolvida em duas etapas: inicialmente em MicroPython para prototipagem e testes em ambiente virtual, e posteriormente traduzida para C++ para otimizar desempenho e controle de hardware. A versão final, implementada em um microcontrolador simulado no Wokwi, utiliza sensores de umidade, temperatura, luz e movimento para ajustar a irrigação e disparar alertas de segurança. O sistema é capaz de monitorar continuamente a umidade do solo, a temperatura ambiente, o nível de água em reservatórios, a intensidade da luz solar e a presença de movimentos suspeitos em áreas delimitadas.
+
+O projeto se propõe a otimizar o uso da água, reduzir o desperdício e garantir um ambiente seguro, além de melhorar as condições de cultivo. A plataforma oferece controle remoto e automatizado, permitindo que agricultores acompanhem as condições de suas plantações e gerenciem os recursos de forma eficiente.
+
+Para mais informações, acesse:
+- [Documentação do projeto](./document/ai_project_document_fiap.md)
+- [Lógica de irrigação](./document/other/irrigation_logic.md)
+- [Diagrama de conexão dos sensores](./document/other/sensor_diagram.md)
+- [Código-fonte no Wokwi C++](https://wokwi.com/projects/414104064226887681)
+- [[LEGADO] Código-fonte no Wokwi MicroPython](https://wokwi.com/projects/412840257175989249)
 
 
 ## 📁 Estrutura de pastas
 
-Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
+O projeto está organizado em diversas pastas e arquivos, com o intuito de facilitar a organização e a manutenção do código. As pastas presentes no projeto são:
 
-- <b>.github</b>: Nesta pasta ficarão os arquivos de configuração específicos do GitHub que ajudam a gerenciar e automatizar processos no repositório.
+- **assets**: Contém imagens utilizadas no README.md.
 
-- <b>assets</b>: aqui estão os arquivos relacionados a elementos não-estruturados deste repositório, como imagens.
+- **document**: Documentação geral do projeto. A pasta possui dois arquivos, sendo um o principal:
 
-- <b>config</b>: Posicione aqui arquivos de configuração que são usados para definir parâmetros e ajustes do projeto.
+    - **ai_project_document_fiap.md**: Documento central que descreve o projeto de forma completa, abrangendo desde a introdução até as conclusões, incluindo objetivos, metodologia, análise de resultados e trabalhos futuros.
+    - **other**: Subpasta que contém arquivos complementares e menos importantes, que detalham aspectos específicos do projeto:
+        - **irrigation_logic.md**: Documento que descreve a lógica de funcionamento do sistema de irrigação, detalhando os algoritmos e as decisões tomadas com base nas leituras dos sensores de umidade, luz e nível de água.
+        - **prints_serial_monitor.md**: Documento que apresenta prints da tela do monitor serial do Wokwi, demonstrando como as informações dos sensores são exibidas e como o sistema responde às condições simuladas.
+        - **security_logic.md**: Documento que detalha a lógica de funcionamento do sistema de segurança, explicando como o sensor de movimento PIR é utilizado para detectar invasões e como o sistema de alarme é acionado e desativado.
+        - **sensor_diagram.md**: Documento que apresenta um diagrama da conexão dos sensores utilizados no projeto, mostrando como cada sensor é conectado ao microcontrolador e como os sinais são transmitidos e processados.
 
-- <b>document</b>: aqui estão todos os documentos do projeto que as atividades poderão pedir. Na subpasta "other", adicione documentos complementares e menos importantes.
+- **src**: Código-fonte do projeto, dividido em duas subpastas:
 
-- <b>scripts</b>: Posicione aqui scripts auxiliares para tarefas específicas do seu projeto. Exemplo: deploy, migrações de banco de dados, backups.
+    - **CPP**: Versão final em C++ do código, utilizada para otimizar desempenho e controle de hardware.
+        - **diagram.json**: Arquivo de configuração do Wokwi.
+        - **libraries.txt**: Lista das bibliotecas utilizadas no projeto.
+        - **sketch.ino**: Código-fonte principal do projeto em C++.
+        - **wokwi-project.txt**: Arquivo de configuração do Wokwi.
+    - **MicroPython**: Versão inicial em MicroPython, utilizada para prototipagem e testes em ambiente virtual.
+        - **diagram.json**: Arquivo de configuração do Wokwi.
+        - **main.py**: Código-fonte principal do projeto em Python.
+        - **wokwi-project.txt**: Arquivo de configuração do Wokwi.
 
-- <b>src</b>: Todo o código fonte criado para o desenvolvimento do projeto ao longo das 7 fases.
+- **README.md**: Arquivo de documentação do projeto.
 
-- <b>README.md</b>: arquivo que serve como guia e explicação geral sobre o projeto (o mesmo que você está lendo agora).
+
 
 ## 🔧 Como executar o código
 
-*Acrescentar as informações necessárias sobre pré-requisitos (IDEs, serviços, bibliotecas etc.) e instalação básica do projeto, descrevendo eventuais versões utilizadas. Colocar um passo a passo de como o leitor pode baixar o seu código e executá-lo a partir de sua máquina ou seu repositório. Considere a explicação organizada em fase.*
+Para testar o código, acesse o projeto no Wokwi clicando [aqui](https://wokwi.com/projects/414104064226887681).
 
-
-## 🗃 Histórico de lançamentos
-
-* 0.5.0 - XX/XX/2024
-    * 
-* 0.4.0 - XX/XX/2024
-    * 
-* 0.3.0 - XX/XX/2024
-    * 
-* 0.2.0 - XX/XX/2024
-    * 
-* 0.1.0 - XX/XX/2024
-    *
+No Wokwi, você poderá observar o funcionamento dos sensores, a lógica de controle de irrigação e o sistema de segurança. O monitor serial exibirá as informações dos sensores e as ações do sistema.
 
 ## 📋 Licença
 
