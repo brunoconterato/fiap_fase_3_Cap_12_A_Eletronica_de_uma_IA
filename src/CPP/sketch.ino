@@ -46,6 +46,9 @@ void loop() {
 
     // The reservoir level is the distance from the HC-SR04 sensor to the water surface
     double reservoir_level = SRHC04_HEIGHT - read_hcsr04();
+    Serial.print("Nível do reservatório: ");
+    Serial.print(reservoir_level);
+    Serial.println(" cm");
 
     bool detected_motion = read_pir();
     double light_level = read_ldr();
@@ -85,9 +88,6 @@ double read_hcsr04() {
 
     long duration = pulseIn(ECHO_PIN, HIGH);
     double distance = duration * 0.034 / 2;
-    Serial.print("ível do reservatório: ");
-    Serial.print(distance);
-    Serial.println(" cm");
 
     return distance;
 }
