@@ -14,8 +14,6 @@ int irrigation_level = 0;   // 0 for off, 1 for light, 2 for moderate, 3 for str
 const double rl10 = 50000.0; // LDR resistance at 10 lux
 const double ldrGamma = 0.7;
 
-const double SRHC04_HEIGHT = 400.0; // Height of HC-SR04 sensor, in cm
-
 bool alarm_active = false;
 bool motion_history[60] = { false };
 int history_index = 0;
@@ -26,6 +24,8 @@ void activate_moderate_irrigation();
 void activate_light_irrigation();
 void deactivate_irrigation(const char* reason);
 void keep_irrigation_level();
+
+const double reservoir_heigth = 400;
 
 void setup() {
     Serial.begin(9600);
@@ -43,14 +43,7 @@ void loop() {
     Serial.println("\nNova leitura:");
     double temperature = 0, humidity = 0;
     read_dht(temperature, humidity);
-
-    // The reservoir level is the distance from the HC-SR04 sensor to the water surface
-    double reservoir_level = SRHC04_HEIGHT - read_hcsr04();
-
-    Serial.print("Nível do reservatório: ");
-    Serial.print(reservoir_level);
-    Serial.println(" cm");
-
+    double reservoir_level = read_hcsr04();
     bool detected_motion = read_pir();
     double light_level = read_ldr();
 
@@ -89,6 +82,9 @@ double read_hcsr04() {
 
     long duration = pulseIn(ECHO_PIN, HIGH);
     double distance = duration * 0.034 / 2;
+    Serial.print("ível do reservatório: ");
+    Serial.print(reservoir_heigth-distance);
+    Serial.println(" cm");
 
     return distance;
 }
@@ -176,9 +172,9 @@ void check_conditions(double humidity, double reservoir_level, double light_leve
     humidity_medium = (humidity >= 40 && humidity < 70);
     humidity_high = humidity >= 70;
 
-    reservoir_full = reservoir_level > 100;
-    reservoir_moderate = (reservoir_level >= 60 && reservoir_level <= 100);
-    reservoir_low = reservoir_level < 60;
+    reservoir_full = reservoir_level >= 350;
+    reservoir_moderate = (reservoir_level >= 50 && reservoir_level < 350);
+    reservoir_low = reservoir_level < 50;
 
     light_high = light_level > 1000;
     light_moderate = (light_level >= 10 && light_level <= 1000);
