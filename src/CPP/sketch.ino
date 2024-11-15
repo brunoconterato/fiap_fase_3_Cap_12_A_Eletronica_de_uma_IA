@@ -14,6 +14,8 @@ int irrigation_level = 0;   // 0 for off, 1 for light, 2 for moderate, 3 for str
 const double rl10 = 50000.0; // LDR resistance at 10 lux
 const double ldrGamma = 0.7;
 
+const double SRHC04_HEIGHT = 400.0; // Height of HC-SR04 sensor, in cm
+
 bool alarm_active = false;
 bool motion_history[60] = { false };
 int history_index = 0;
@@ -24,8 +26,6 @@ void activate_moderate_irrigation();
 void activate_light_irrigation();
 void deactivate_irrigation(const char* reason);
 void keep_irrigation_level();
-
-const double SRHC04_HEIGHT = 400.0; // Height of HC-SR04 sensor, in cm
 
 void setup() {
     Serial.begin(9600);
@@ -43,7 +43,10 @@ void loop() {
     Serial.println("\nNova leitura:");
     double temperature = 0, humidity = 0;
     read_dht(temperature, humidity);
-    double reservoir_level = read_hcsr04();
+
+    // The reservoir level is the distance from the HC-SR04 sensor to the water surface
+    double reservoir_level = SRHC04_HEIGHT - read_hcsr04();
+
     bool detected_motion = read_pir();
     double light_level = read_ldr();
 
@@ -83,7 +86,7 @@ double read_hcsr04() {
     long duration = pulseIn(ECHO_PIN, HIGH);
     double distance = duration * 0.034 / 2;
     Serial.print("ível do reservatório: ");
-    Serial.print(SRHC04_HEIGHT - distance);
+    Serial.print(distance);
     Serial.println(" cm");
 
     return distance;
