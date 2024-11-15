@@ -173,8 +173,8 @@ void check_conditions(double humidity, double reservoir_level, double light_leve
     humidity_high = humidity >= 70;
 
     reservoir_full = reservoir_level >= 350;
-    reservoir_moderate = (reservoir_level >= 50 && reservoir_level < 350);
-    reservoir_low = reservoir_level < 50;
+    reservoir_moderate = (reservoir_level >= 60 && reservoir_level < 350);
+    reservoir_low = reservoir_level < 60;
 
     light_high = light_level > 1000;
     light_moderate = (light_level >= 10 && light_level <= 1000);
