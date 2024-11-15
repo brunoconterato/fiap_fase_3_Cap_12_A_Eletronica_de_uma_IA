@@ -25,7 +25,7 @@ void activate_light_irrigation();
 void deactivate_irrigation(const char* reason);
 void keep_irrigation_level();
 
-const double reservoir_heigth = 400;
+const double SRHC04_HEIGHT = 400.0;
 
 void setup() {
     Serial.begin(9600);
@@ -83,7 +83,7 @@ double read_hcsr04() {
     long duration = pulseIn(ECHO_PIN, HIGH);
     double distance = duration * 0.034 / 2;
     Serial.print("ível do reservatório: ");
-    Serial.print(reservoir_heigth-distance);
+    Serial.print(SRHC04_HEIGHT - distance);
     Serial.println(" cm");
 
     return distance;
